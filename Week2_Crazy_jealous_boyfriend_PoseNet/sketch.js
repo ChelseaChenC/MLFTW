@@ -14,29 +14,36 @@ let poses = [];
 
 
 
+
 function setup() {
   background(255);
   video = createCapture(VIDEO);
-  video.size(width, height);
+  // video.size(width, height);
 
   // Create a new poseNet method with a single detection
-  poseNet = ml5.poseNet(video);
-  // This sets up an event that fills the global variable "poses"
-  // with an array every time new poses are detected
-  poseNet.on('pose', function(results) {
+  poseNet = ml5.poseNet(video, modelReady);
+  poseNet.on('pose', function gotPoses(results){
     poses = results;
+    // console.log(results);
   });
-  // Hide the video element, and just show the canvas
-  // video.hide();
+  video.hide();
+  console.log(poses.length);
+
   timeout();
 }
 
 
 
+function modelReady(){
+  console.log("model ready");
+}
+
 function draw() {
-    image(video, 0, 0, width, height);
+    // image(video, 0, 0, width, height);
     console.log(poses.length);
 }
+
+
 
 
 
